@@ -67,9 +67,9 @@ router.put('/books/:id', function (req, res) {
 
     //Check if book exist
     const booKexist = booksDir.find(b => b.isbn === id);
-    if(!booKexist) return res.send('Book does not exist');
+    if (!booKexist) return res.send('Book does not exist');
 
-    const updateField = (val, prev) => !val ? prev :val;
+    const updateField = (val, prev) => !val ? prev : val;
 
     const updatedBook = {
         ...booKexist,
@@ -91,7 +91,14 @@ router.put('/books/:id', function (req, res) {
 });
 
 router.delete('/books/:id', function (req, res) {
+    const { id } = req.params;
 
+    const book = booksDir.find(b => b.isbn === id);
+    if (!book) return res.status(404).send('Book does not exist');
+
+    booksDir = booksDir.filter(b => b.isbn !== id);
+
+    res.send('Success');
 });
 
 module.exports = router;
