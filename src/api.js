@@ -17,7 +17,38 @@ router.get('/books/:id', function(req,res){
 });
 
 router.post('/books', function(req,res){
+    const{
+        title,
+        isbn,
+        pageCount,
+        publishedDate,
+        thumbnailUrl,
+        shortDescription,
+        longDescription,
+        status,
+        authors,
+        categories,
+    } = req.body;
 
+    //Check if book exists
+    const bookExist = booksDir.find(b => b.isbn ===isbn);
+    if(bookExist) return res.send('Book already exist'); 
+
+    //create book
+    const book = {
+        title,
+        isbn,
+        pageCount,
+        publishedDate,
+        thumbnailUrl,
+        shortDescription,
+        longDescription,
+        status,
+        authors,
+        categories,
+    };
+    booksDir.push(book);
+    res.send(book);
 });
 
 router.put('/books/:id', function(req,res){
